@@ -7,3 +7,21 @@ type PingResp struct {
 	Message string `json:"message"`
 	Time    string `json:"time"`
 }
+
+type RegisterReq struct {
+	LongUrl string `json:"longUrl"`
+}
+
+type RegisterResp struct {
+	Host     string `json:"host"`
+	ShortKey string `json:"shortKey"`
+	ShortUrl string `json:"shortUrl"`
+}
+
+type ShortRedirectionReq struct {
+	ShortKey string `path:"shortKey"`
+}
+
+type ShortRedirectionResp struct {
+	LongUrl string
+}

@@ -1,3 +1,7 @@
 Name: shortUrl
 Host: 0.0.0.0
 Port: 51743
+# server 配置
+ServerName: http://127.0.0.1:51743
+# mysql 配置
+DataSource: shortUrl:{密码}@tcp(127.0.0.1:3306)/shortUrl?parseTime=true

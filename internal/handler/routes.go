@@ -19,6 +19,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/ping",
 				Handler: pingHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/register",
+				Handler: registerHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/s/:shortKey",
+				Handler: shortRedirectionHandler(serverCtx),
+			},
 		},
 	)
 }
