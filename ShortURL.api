@@ -1,0 +1,17 @@
+syntax = "v1"
+
+type (
+	// 定义Ping接口的 json 响应体
+	PingResp {
+		Message string `json:"message"`
+		Time    string `json:"time"`
+	}
+)
+
+// 定义 HTTP 服务
+service shortUrl {
+	// 使用 @handler 来定义处理方法
+	@handler ping
+	get /ping returns (PingResp)
+}
+
