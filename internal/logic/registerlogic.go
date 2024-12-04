@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"errors"
+	"math/rand"
 
 	"ShortURL/internal/model"
 	"ShortURL/internal/svc"
@@ -9,6 +11,7 @@ import (
 	"ShortURL/internal/utils/dictionary"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type RegisterLogic struct {
@@ -26,11 +29,26 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterResp, err error) {
-	// todo: add your logic here and delete this line
-	randStr := dictionary.Dictionary.Get()
+	var shortKey string
+	var shortUrls *model.ShortUrls
+	for i := 0; i < 5; i++ { // 如果冲突就重复5次，5次冲突就告警和退出
+		shortKey = dictionary.Dictionary.Get()
+		// 查询是否冲突
+		shortUrls, err = l.svcCtx.Model.FindOneByShortUrl(l.ctx, shortKey)
+		if err != nil {
+			if err == sqlx.ErrNotFound {
+				break
+			} else {
+				return nil, err
+			}
+		}
+	}
+	if shortUrls != nil && shortUrls.Id != 0 {
+		return nil, errors.New("请重试")
+	}
 	data := model.ShortUrls{
 		LongUrl:  req.LongUrl,
-		ShortUrl: randStr,
+		ShortUrl: shortKey,
 	}
 	_, err = l.svcCtx.Model.Insert(l.ctx, &data)
 	if err != nil {
@@ -38,8 +56,12 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 	}
 	resp = &types.RegisterResp{
 		Host:     l.svcCtx.Config.ServerName,
-		ShortKey: randStr,
+		ShortKey: shortKey,
 	}
 	resp.ShortUrl = resp.Host + "/s/" + resp.ShortKey
+	// 异步添加一个缓存
+	go func(key, longUrl string) {
+		l.svcCtx.Redis.Setex(key, longUrl, 60*120+rand.Intn(60*120))
+	}(l.svcCtx.Config.Name+"_"+resp.ShortKey, req.LongUrl)
 	return resp, err
 }

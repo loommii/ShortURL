@@ -4,4 +4,9 @@ Port: 51743
 # server 配置
 ServerName: http://127.0.0.1:51743
 # mysql 配置
-DataSource: shortUrl:Q64X5ziPDkNpAa4J@tcp(142.171.156.33:3306)/shortUrl?parseTime=true
+DataSource: shortUrl:password@tcp(127.0.0.1:3306)/shortUrl?parseTime=true
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass: password
+  Tls: false

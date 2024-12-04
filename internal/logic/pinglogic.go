@@ -25,7 +25,6 @@ func NewPingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PingLogic {
 }
 
 func (l *PingLogic) Ping() (resp *types.PingResp, err error) {
-	// todo: add your logic here and delete this line
 	resp = &types.PingResp{
 		Message: "ok",
 		Time:    time.Now().Local().String(),
