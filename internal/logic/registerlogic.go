@@ -6,8 +6,8 @@ import (
 	"ShortURL/internal/model"
 	"ShortURL/internal/svc"
 	"ShortURL/internal/types"
+	"ShortURL/internal/utils/dictionary"
 
-	"github.com/duke-git/lancet/v2/random"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -27,7 +27,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterResp, err error) {
 	// todo: add your logic here and delete this line
-	randStr := random.RandNumeralOrLetter(6)
+	randStr := dictionary.Dictionary.Get()
 	data := model.ShortUrls{
 		LongUrl:  req.LongUrl,
 		ShortUrl: randStr,
