@@ -1,1 +1,90 @@
+# 二进制文件
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.out
+
+# 构建产物
+*.o
+*.a
+*.obj
+*.lib
+*.pdb
+
+# 操作系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE相关
+.vscode/
+.idea/
+.vs/
+*.swp
+*.swo
+*~
+.settings/
+
+# 编辑器备份文件
+*.bak
+*.old
+
+# 日志文件
+*.log
+logs/
+log/
+
+# 本地配置文件
 etc/shorturl_debug.yaml
+etc/shorturl.local.yaml
+config.local.yaml
+
+# Go相关
+vendor/
+go.work.sum
+*.mod
+*.sum
+go.mod.backup
+go.sum.backup
+
+# 数据库相关
+*.db
+*.db-journal
+
+# 环境变量文件
+.env
+.env.local
+.env.development.local
+.env.test.local
+
+# 测试相关
+coverage.out
+profile.out
+*.test
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+*.temp
+
+# 编译缓存
+.gocache/
+.cache/
+
+# 运行时文件
+*.pid
+*.out
+*.prof
+
+# Docker相关
+.dockerignore
+.docker/
+!docker-compose.yaml
